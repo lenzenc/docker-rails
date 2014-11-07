@@ -9,9 +9,6 @@ RUN apt-get -qy install nodejs
 RUN adduser --disabled-password --home=/rails --gecos "" rails
 
 # copy the Rails app
-# we assume we have cloned the "docrails" repository locally
-#  and it is clean; see the "prepare" script
-# ADD docrails/guides/code/getting_started /rails
 ADD . /rails
 
 # Make sure we have rights on the rails folder
@@ -19,11 +16,11 @@ RUN chown rails -R /rails
 
 # copy and execute the setup script
 # this will run bundler, setup the database, etc.
-ADD scripts/setup.sh /setup.sh
+ADD docker/scripts/setup.sh /setup.sh
 RUN su rails -c /setup.sh
 
 # copy the start script
-ADD scripts/start.sh /start.sh
+ADD docker/scripts/start.sh /start.sh
 
 EXPOSE 3000
 USER rails
